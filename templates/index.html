@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #007bff;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        #regex_results, #email_validation_result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Regex and Email Validator Web App</h1>
+
+        <!-- Regex Tester -->
+        <div class="form-container">
+            <h2>Regex Tester</h2>
+            <form action="/results" method="post">
+                <label for="test_string">Test String:</label><br>
+                <input type="text" id="test_string" name="test_string" value="{{ request.form.get('test_string', '') }}"><br>
+                <label for="regex_pattern">Regex Pattern:</label><br>
+                <input type="text" id="regex_pattern" name="regex_pattern" value="{{ request.form.get('regex_pattern', '') }}"><br><br>
+                <input type="submit" value="Test Regex">
+            </form>
+
+            <!-- Display Regex Matches -->
+            <div id="regex_results">
+                {% if matches %}
+                <h3>Regex Matches:</h3>
+                <ul>
+                    {% for match in matches %}
+                        <li>{{ match }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    <p>No match found</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Email Validator -->
+        <div class="form-container">
+            <h2>Email Validator</h2>
+            <form action="/validate_email" method="post">
+                <label for="email">Email:</label><br>
+                <input type="text" id="email" name="email" value="{{ request.form.get('email', '') }}"><br><br>
+                <input type="submit" value="Validate Email">
+            </form>
+
+            <!-- Display Email Validation Result -->
+            <div id="email_validation_result">
+                {% if email_result %}
+                    <p>{{ email_result }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
